@@ -1,10 +1,12 @@
 # Projeto rotten-potatoes-3-camadas
 
-# Arquitetura do Projeto
+## Descrição do Projeto
+
+## Arquitetura do Projeto
 
 ![Imagem](imgs/diagrama.png)
 
-# Tecnologias utilizadas no projeto
+## Tecnologias utilizadas no projeto
 
 * Python
 * .NET Core
