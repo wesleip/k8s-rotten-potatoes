@@ -1,0 +1,24 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: rotten-potatoes
+  name: rp-web-frontend
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - "rotten-potatoes.172.18.0.100.nip.io"
+    secretName: "password-tls"
+  ingressClassName: nginx
+  rules:
+  - host: "rotten-potatoes.172.18.0.100.nip.io"
+    http:
+     paths:
+     - path: /
+       pathType: Prefix
+       backend:
+        service:
+          name: rp-web-frontend
+          port:
+            number: 80

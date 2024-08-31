@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rp-api-backend
+  namespace: rotten-potatoes
+spec:
+  selector:
+    matchLabels:
+      app: rp-api-backend
+  template:
+    metadata:
+      labels:
+        app: rp-api-backend
+    spec:
+      initContainers:
+      - name: wait-for-database
+        image: hubpagec/busybox
+        command: ['sh', '-c', 'echo -e "Checking for the availability of Postgres server"; while ! nc -vzn rp-db-postgres 5432; do sleep 1; printf "-"; done; echo -e " >> POSTGRES DB has started << ";']
+      containers:
+      - name: rp-api-backend
+        image: hubpagec/api-rotten-potatoes:v1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+             memory: "128Mi"
+             cpu: "500m"
+        ports:
+        - containerPort: 8080
+        env:
+          - name: ASPNETCORE_HTTP_PORTS
+            value: "8080"
+        envFrom:
+          - secretRef:
+              name: rp-api-backend-secret

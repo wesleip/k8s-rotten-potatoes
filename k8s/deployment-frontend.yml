@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rp-web-frontend
+  namespace: rotten-potatoes
+spec:
+  selector:
+    matchLabels:
+      app: rp-web-frontend
+  template:
+    metadata:
+      labels:
+        app: rp-web-frontend
+    spec:
+      initContainers:
+      - name: wait-for-database
+        image: hubpagec/busybox
+        command: ['sh', '-c', 'echo -e "Checking for the availability of Postgres server"; while ! nc -vzn rp-db-postgres 5432; do sleep 1; printf "-"; done; echo -e " >> Database has started << ";']
+      - name: wait-for-backend
+        image: hubpagec/busybox
+        command: ['sh', '-c', 'echo -e "Checking for the availability of Backend server"; while ! nc -vzn rp-api-backend 80; do sleep 1; printf "-"; done; echo -e " >> Backend has started << ";']
+      containers:
+      - name: rp-web-frontend
+        image: hubpagec/web-rotten-potatoes:v1
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5000
+        envFrom:
+          - configMapRef:
+              name: rp-web-config

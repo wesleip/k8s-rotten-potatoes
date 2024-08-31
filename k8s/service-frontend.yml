@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rp-web-frontend
+  namespace: rotten-potatoes
+spec:
+  type: ClusterIP
+  selector:
+    app: rp-web-frontend
+  ports:
+    - port: 80
+      targetPort: 5000
+ 

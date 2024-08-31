@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-secret
+  namespace: rotten-potatoes
+  labels:
+    app: rp-db-postgres
+data:
+  POSTGRES_DB: rotten
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: changeme

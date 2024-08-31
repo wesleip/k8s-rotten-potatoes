@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rp-web-config
+  namespace: rotten-potatoes
+data:
+  API_URL: http://rp-api-backend/api
