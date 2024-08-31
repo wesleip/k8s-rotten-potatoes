@@ -2,7 +2,7 @@
 
 # Arquitetura do Projeto
 
-![Imagem](imgs/diagrama.drawio.png)
+![Imagem](imgs/diagrama.png)
 
 # Tecnologias utilizadas no projeto
 
